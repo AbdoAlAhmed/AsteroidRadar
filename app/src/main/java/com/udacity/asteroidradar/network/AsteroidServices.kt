@@ -28,7 +28,9 @@ private fun httpLogging(): HttpLoggingInterceptor {
 private fun client(): OkHttpClient {
     return OkHttpClient()
         .newBuilder()
-        .addInterceptor(httpLogging()).build()
+        .addInterceptor(httpLogging())
+        .addInterceptor(AsteroidUrl())
+        .build()
 }
 
 private val retrofit = Retrofit.Builder()
@@ -57,9 +59,14 @@ interface AsteroidServices {
 object AsteroidApi {
     val asteroidServicesApi: AsteroidServices = retrofit.create(AsteroidServices::class.java)
 }
-class AsteroidUrl : Interceptor{
+
+class AsteroidUrl : Interceptor {
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
         val chainRequest = chain.request()
+        val httpUrl = chainRequest.url
+        val url = httpUrl.newBuilder().addQueryParameter("api_key", Constants.API_KEY).build()
+        val request = chainRequest.newBuilder().url(url).build()
+        return chain.proceed(request)
     }
 
 }

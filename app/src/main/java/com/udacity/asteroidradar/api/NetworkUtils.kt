@@ -57,3 +57,15 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
 
     return formattedDateList
 }
+fun startDataFormatted():String{
+    val cal = Calendar.getInstance()
+    cal.add(Calendar.DAY_OF_YEAR,Constants.DEFAULT_END_DATE_DAYS)
+    val currentTime = cal.time
+    val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT,Locale.getDefault())
+    return dateFormat.format(currentTime)
+}
+fun endDataFormatted():String{
+    val dataFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT,Locale.getDefault())
+    val currentTime = Calendar.getInstance().time
+    return dataFormat.format(currentTime)
+}

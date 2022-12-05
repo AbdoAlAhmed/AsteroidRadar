@@ -1,13 +1,15 @@
-package com.udacity.asteroidradar.network
+package com.udacity.asteroidradar.data
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
-import com.udacity.asteroidradar.json.AsteroidInfo2
+import com.udacity.asteroidradar.PictureOfDay
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -29,7 +31,6 @@ private fun client(): OkHttpClient {
     return OkHttpClient()
         .newBuilder()
         .addInterceptor(httpLogging())
-        .addInterceptor(AsteroidUrl())
         .build()
 }
 
@@ -43,30 +44,8 @@ private val retrofit = Retrofit.Builder()
 
 interface AsteroidServices {
 
-    @GET("neo/rest/v1/feed")
-    suspend fun getData(
-        @Query("start_date") startData: String,
-        @Query("end_date") endData: String,
-        @Query("api_key") apiKey: String
-    ): Response<AsteroidInfo2>
-
-    @GET("planetary/apod")
-    suspend fun getImage(@Query("api_key") apiKey: String): List<ImgInfo>
-
-
 }
 
 object AsteroidApi {
     val asteroidServicesApi: AsteroidServices = retrofit.create(AsteroidServices::class.java)
-}
-
-class AsteroidUrl : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
-        val chainRequest = chain.request()
-        val httpUrl = chainRequest.url
-        val url = httpUrl.newBuilder().addQueryParameter("api_key", Constants.API_KEY).build()
-        val request = chainRequest.newBuilder().url(url).build()
-        return chain.proceed(request)
-    }
-
 }

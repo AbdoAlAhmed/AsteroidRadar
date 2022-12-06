@@ -1,11 +1,14 @@
 package com.udacity.asteroidradar.main
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
@@ -25,7 +28,6 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
-
 
         setHasOptionsMenu(true)
 

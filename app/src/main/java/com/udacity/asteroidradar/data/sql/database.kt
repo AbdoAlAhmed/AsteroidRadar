@@ -8,11 +8,21 @@ import com.udacity.asteroidradar.Asteroid
 
 @Dao
 interface AsteroidDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAsteroids(vararg asteroidEntity: AsteroidEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPicture(podEntity: PodEntity)
+
+    @Query("SELECT * FROM asteroid_table ORDER BY close_Approach_Date ASC")
+    fun getAsteroidFromDatabase(): LiveData<List<AsteroidEntity>>
+
+    @Query("SELECT * FROM pod_entity ORDER BY day DESC LIMIT 1")
+    fun getPictureODay(): LiveData<PodEntity>
 
 }
 
-@Database(entities = [AsteroidEntity::class, PodEntity::class], version = 1, exportSchema = false)
+@Database(entities = [AsteroidEntity::class, PodEntity::class], version = 3, exportSchema = false)
 abstract class AsteroidDatabase : RoomDatabase() {
 
     abstract val asteroidDao: AsteroidDao
@@ -31,7 +41,7 @@ abstract class AsteroidDatabase : RoomDatabase() {
                 if (Instance == null) {
                     Instance = Room.databaseBuilder(
                         context.applicationContext,
-                        AsteroidDatabase::class.java, "Asteroid_db"
+                        AsteroidDatabase::class.java, "asteroid_db"
                     )
                         .fallbackToDestructiveMigration()
                         .build()

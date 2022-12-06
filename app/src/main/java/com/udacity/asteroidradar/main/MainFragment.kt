@@ -17,7 +17,11 @@ import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private  val viewModel: MainViewModel by lazy {
+        val application = requireNotNull(activity)
+        val viewModelFactory = MainViewModelFactory(application.application)
+        ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+    }
     private  val adapter: MainAdapter? = null
 
 
@@ -26,9 +30,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val application = requireNotNull(activity)
-        val viewModelFactory = MainViewModelFactory(application.application)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+
 
         val binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.*
 import com.udacity.asteroidradar.api.endDataFormatted
+import com.udacity.asteroidradar.api.internetConnection
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.api.startDataFormatted
 import com.udacity.asteroidradar.data.sql.AsteroidDatabase
@@ -38,14 +39,13 @@ class Repo(private val database: AsteroidDatabase) {
         }
 
     private val _asteroiFilter: MutableLiveData<MainViewModel.AsteroidFilter> = MutableLiveData(
-        MainViewModel.AsteroidFilter.TODAY)
+        MainViewModel.AsteroidFilter.SAVED)
     val asteroidFilter : LiveData<MainViewModel.AsteroidFilter>
         get() = _asteroiFilter
 
     val getAsteroidsWithFilter : LiveData<List<Asteroid>>
         get() = Transformations.switchMap(asteroidFilter){
             try {
-
             when(it){
                 MainViewModel.AsteroidFilter.TODAY -> getAsteroidToday
                 MainViewModel.AsteroidFilter.WEEK -> getAsteroidWeek

@@ -20,8 +20,8 @@ class AsteroidRader : Application() {
     private fun repeating() {
 
         val constraint = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresCharging(true)
-            .setRequiredNetworkType(NetworkType.UNMETERED)
             .setRequiresBatteryNotLow(true).build()
 
         val repeatingRequest = PeriodicWorkRequestBuilder<RefreshData>(1, TimeUnit.DAYS)

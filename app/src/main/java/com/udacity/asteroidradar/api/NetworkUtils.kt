@@ -1,5 +1,9 @@
 package com.udacity.asteroidradar.api
 
+import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import org.json.JSONObject
@@ -68,4 +72,9 @@ fun endDataFormatted():String{
     val dataFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT,Locale.getDefault())
     val currentTime = Calendar.getInstance().time
     return dataFormat.format(currentTime)
+}
+fun internetConnection(application: Application):Boolean{
+    val connectivityManager = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+    return activeNetwork!!.isConnected
 }

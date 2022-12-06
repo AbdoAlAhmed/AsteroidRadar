@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="asteroid"
+            type="com.udacity.asteroidradar.Asteroid" />
+
+        <variable
+            name="asteroidClick"
+            type="com.udacity.asteroidradar.main.MainAdapter.Onclick" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:onClick="@{()->asteroidClick.onClick(asteroid)}"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="0.1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_code_name"
+                style="@style/text_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{asteroid.codename}" />
+
+            <TextView
+                style="@style/text_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{asteroid.closeApproachDate}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:layout_weight="0.9">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:statusIcon="@{asteroid.isPotentiallyHazardous}" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

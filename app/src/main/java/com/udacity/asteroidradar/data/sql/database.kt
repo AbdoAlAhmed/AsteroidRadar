@@ -15,7 +15,13 @@ interface AsteroidDao {
     fun insertPicture(podEntity: PodEntity)
 
     @Query("SELECT * FROM asteroid_table ORDER BY close_Approach_Date ASC")
-    fun getAsteroidFromDatabase(): LiveData<List<AsteroidEntity>>
+    fun getAsteroids(): LiveData<List<AsteroidEntity>>
+
+    @Query("SELECT * FROM asteroid_table WHERE close_Approach_Date = :today ")
+    fun getAsteroidToday(today:String):LiveData<List<AsteroidEntity>>
+
+    @Query("SELECT * FROM asteroid_table WHERE close_Approach_Date >= :today  ORDER BY close_approach_date DESC")
+    fun getAsteroidWeek(today: String):LiveData<List<AsteroidEntity>>
 
     @Query("SELECT * FROM pod_entity ORDER BY day DESC LIMIT 1")
     fun getPictureODay(): LiveData<PodEntity>

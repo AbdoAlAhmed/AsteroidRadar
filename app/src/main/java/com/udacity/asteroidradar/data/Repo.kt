@@ -10,6 +10,7 @@ import com.udacity.asteroidradar.api.startDataFormatted
 import com.udacity.asteroidradar.data.sql.AsteroidDatabase
 import com.udacity.asteroidradar.data.sql.asDomainModel
 import com.udacity.asteroidradar.data.sql.asPodModel
+import com.udacity.asteroidradar.main.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -36,6 +37,26 @@ class Repo(private val database: AsteroidDatabase) {
             it?.asPodModel()
         }
 
+    private val _asteroiFilter: MutableLiveData<MainViewModel.AsteroidFilter> = MutableLiveData(
+        MainViewModel.AsteroidFilter.TODAY)
+    val asteroidFilter : LiveData<MainViewModel.AsteroidFilter>
+        get() = _asteroiFilter
+
+    val getAsteroidsWithFilter : LiveData<List<Asteroid>>
+        get() = Transformations.switchMap(asteroidFilter){
+            try {
+
+            when(it){
+                MainViewModel.AsteroidFilter.TODAY -> getAsteroidToday
+                MainViewModel.AsteroidFilter.WEEK -> getAsteroidWeek
+                MainViewModel.AsteroidFilter.SAVED -> getAsteroids
+            }
+            }catch (ex :Exception){
+
+            throw IllegalArgumentException (ex.message)
+            }
+        }
+
     suspend fun insertAsteroid() {
         withContext(Dispatchers.IO) {
 
@@ -51,6 +72,7 @@ class Repo(private val database: AsteroidDatabase) {
                 }
             }
         }
+
     }
 
 
@@ -63,5 +85,9 @@ class Repo(private val database: AsteroidDatabase) {
                 }
             }
         }
+    }
+
+     fun updateFilter(filter :MainViewModel.AsteroidFilter){
+        _asteroiFilter.value = filter
     }
 }

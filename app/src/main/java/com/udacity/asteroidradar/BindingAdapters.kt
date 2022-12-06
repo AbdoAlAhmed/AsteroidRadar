@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.udacity.asteroidradar.main.MainAdapter
+import com.udacity.asteroidradar.main.MainViewModel
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -51,7 +52,10 @@ fun bindPictureOFDay(imageView: ImageView, pictureOfDay: PictureOfDay?) {
 }
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
+fun bindRecyclerView(
+    recyclerView: RecyclerView,
+    data: List<Asteroid>?
+) {
     val adapter = recyclerView.adapter as MainAdapter
     adapter.submitList(data)
 }

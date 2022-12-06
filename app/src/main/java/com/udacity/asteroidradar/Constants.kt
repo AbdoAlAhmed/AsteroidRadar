@@ -6,6 +6,5 @@ object Constants {
     const val START_DATA = "2015-09-07"
     const val END_DATA = "2015-09-12"
     const val BASE_URL = "https://api.nasa.gov/"
-    // todo insert Api key here
-    const val API_KEY = ""
+    const val API_KEY = "lDD8WEKCGLor3LPwdINSWqhspv4AQtjAyapu3ehf"
 }

@@ -1,6 +1,7 @@
 # Asteroid Rader 
-clean architecture follow MVVM design patern
-Libraries
+## clean architecture 
+follow MVVM design patern
+### Libraries
 Retrofit 
 Moshi
 Room 

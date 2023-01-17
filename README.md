@@ -1,5 +1,4 @@
 # Asteroid Rader 
-clean architecture 
  MVVM design patern
 ### Libraries
 Retrofit ,
